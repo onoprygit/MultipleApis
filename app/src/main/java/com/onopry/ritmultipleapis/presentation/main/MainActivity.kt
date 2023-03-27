@@ -75,60 +75,58 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleScreenState() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.screenState.collectLatest { state ->
-                    with(binding) {
-                        when (state) {
-                            is ScreenState.DogApi.Data -> {
-                                dogApiResultImage.show()
-                                errorMessage.gone()
-                                loadDogImage(state.url)
-                            }
-                            is ScreenState.DogApi.Empty -> {
-                                dogApiResultImage.hide()
-                            }
+        observeWithLifecycle(Lifecycle.State.STARTED) {
+            viewModel.screenState.collectLatest { state ->
+                with(binding) {
+                    when (state) {
+                        is ScreenState.DogApi.Data -> {
+                            dogApiResultImage.show()
+                            errorMessage.gone()
+                            loadDogImage(state.url)
+                        }
+                        is ScreenState.DogApi.Empty -> {
+                            dogApiResultImage.hide()
+                        }
 
-                            is ScreenState.NationalizeApi.Data -> {
-                                dogApiResultImage.gone()
-                                errorMessage.gone()
-                                ownApiResultText.gone()
+                        is ScreenState.NationalizeApi.Data -> {
+                            dogApiResultImage.gone()
+                            errorMessage.gone()
+                            ownApiResultText.gone()
 
-                                dialog.data = state.data
-                                dialog.show(supportFragmentManager, null)
+                            dialog.data = state.data
+                            dialog.show(supportFragmentManager, null)
 //                                nationalizeResultText.text = state.data
-                            }
-                            is ScreenState.NationalizeApi.Empty -> {
-                                errorMessage.gone()
-                                ownApiResultText.gone()
-                                dogApiResultImage.gone()
-                            }
+                        }
+                        is ScreenState.NationalizeApi.Empty -> {
+                            errorMessage.gone()
+                            ownApiResultText.gone()
+                            dogApiResultImage.gone()
+                        }
 
-                            is ScreenState.OwnApi.Data -> {
-                                errorMessage.gone()
-                                dogApiResultImage.gone()
+                        is ScreenState.OwnApi.Data -> {
+                            errorMessage.gone()
+                            dogApiResultImage.gone()
 
-                                ownApiResultText.show()
-                                ownApiResultText.text = state.data
-                            }
-                            ScreenState.OwnApi.Empty -> {
-                                errorMessage.gone()
-                                ownApiResultText.hide()
-                                dogApiResultImage.gone()
-                            }
+                            ownApiResultText.show()
+                            ownApiResultText.text = state.data
+                        }
+                        ScreenState.OwnApi.Empty -> {
+                            errorMessage.gone()
+                            ownApiResultText.hide()
+                            dogApiResultImage.gone()
+                        }
 
-                            is ScreenState.Empty -> {
-                                dogApiResultImage.gone()
-                                ownApiResultText.gone()
-                                errorMessage.gone()
-                            }
-                            is ScreenState.Error -> {
-                                dogApiResultImage.gone()
-                                ownApiResultText.gone()
+                        is ScreenState.Empty -> {
+                            dogApiResultImage.gone()
+                            ownApiResultText.gone()
+                            errorMessage.gone()
+                        }
+                        is ScreenState.Error -> {
+                            dogApiResultImage.gone()
+                            ownApiResultText.gone()
 
-                                errorMessage.show()
-                                errorMessage.text = state.msg
-                            }
+                            errorMessage.show()
+                            errorMessage.text = state.msg
                         }
                     }
                 }

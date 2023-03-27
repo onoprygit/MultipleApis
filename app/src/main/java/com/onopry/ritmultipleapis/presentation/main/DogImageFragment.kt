@@ -32,7 +32,7 @@ class DogImageFragment : Fragment(R.layout.fragment_dog_image) {
 //        val state = viewModel.screenState.value
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.screenState.collectLatest {state ->
+                viewModel.screenState.collectLatest { state ->
                     if (state is ScreenState.DogApi.Data)
                         Glide.with(requireContext())
                             .load(state.url)

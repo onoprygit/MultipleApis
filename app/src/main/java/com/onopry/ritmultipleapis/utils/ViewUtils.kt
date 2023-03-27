@@ -1,6 +1,7 @@
 package com.onopry.ritmultipleapis.utils
 
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -22,7 +23,7 @@ fun View.gone() {
     visibility = View.GONE
 }
 
-fun MainActivity.observeWithLifecycle(state: Lifecycle.State, block: suspend () -> Unit) {
+fun AppCompatActivity.observeWithLifecycle(state: Lifecycle.State, block: suspend () -> Unit) {
     lifecycleScope.launch {
         repeatOnLifecycle(state) {
             block()

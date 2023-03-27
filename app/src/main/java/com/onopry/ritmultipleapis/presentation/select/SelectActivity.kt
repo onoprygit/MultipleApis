@@ -9,6 +9,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.onopry.ritmultipleapis.R
 import com.onopry.ritmultipleapis.databinding.ActivitySelectBinding
 import com.onopry.ritmultipleapis.presentation.ViewModelFactory
+import com.onopry.ritmultipleapis.utils.observeWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -32,15 +33,13 @@ class SelectActivity : AppCompatActivity() {
             }
         }
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.selectedApi.collectLatest { api ->
-                    when (api) {
-                        ApiSelected.Dogs -> binding.radioGroup.check(R.id.rbDogsApi)
-                        ApiSelected.Nationalize -> binding.radioGroup.check(R.id.rbNationalizeApi)
-                        ApiSelected.Own -> binding.radioGroup.check(R.id.rbOwnApi)
-                        else -> {}
-                    }
+        observeWithLifecycle(Lifecycle.State.STARTED) {
+            viewModel.selectedApi.collectLatest { api ->
+                when (api) {
+                    ApiSelected.Dogs -> binding.radioGroup.check(R.id.rbDogsApi)
+                    ApiSelected.Nationalize -> binding.radioGroup.check(R.id.rbNationalizeApi)
+                    ApiSelected.Own -> binding.radioGroup.check(R.id.rbOwnApi)
+                    else -> {}
                 }
             }
         }
