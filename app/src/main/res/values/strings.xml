@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">RITMultipleAPIs</string>
+    <string name="radio_your_api">Your API</string>
+    <string name="radio_api_from_nationalize_io">API from nationalize.io</string>
+    <string name="radio_api_from_dog_ceo">API from dog.ceo</string>
+    <string name="submit_button_text">Submit!</string>
+    <string name="shared_prefs_key">selectedApi</string>
+    <string name="title_need_select_api">Select api</string>
+</resources>
